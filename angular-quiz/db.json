@@ -1,0 +1,34 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the capital of France?",
+      "options": ["London", "Berlin", "Paris", "Madrid"],
+      "correctAnswer": "Paris"
+    },
+    {
+      "id": 2,
+      "question": "Which planet is known as the Red Planet?",
+      "options": ["Venus", "Mars", "Jupiter", "Saturn"],
+      "correctAnswer": "Mars"
+    },
+    {
+      "id": 3,
+      "question": "What is the largest mammal in the world?",
+      "options": ["African Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
+      "correctAnswer": "Blue Whale"
+    },
+    {
+      "id": 4,
+      "question": "Which element has the chemical symbol 'O'?",
+      "options": ["Gold", "Silver", "Oxygen", "Iron"],
+      "correctAnswer": "Oxygen"
+    },
+    {
+      "id": 5,
+      "question": "What is the largest planet in our solar system?",
+      "options": ["Mars", "Venus", "Jupiter", "Saturn"],
+      "correctAnswer": "Jupiter"
+    }
+  ]
+}
