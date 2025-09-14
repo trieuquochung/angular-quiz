@@ -22,9 +22,13 @@ jobs:
       - name: Build Angular app
         run: npm run build:prod
         
+      - name: Create 404.html for SPA routing
+        run: cp ./dist/angular-quiz/browser/index.html ./dist/angular-quiz/browser/404.html
+        
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist/angular-quiz/browser
+          publish_branch: webapp
           cname: # Add custom domain if needed
