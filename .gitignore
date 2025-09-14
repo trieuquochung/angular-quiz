@@ -8,6 +8,7 @@
 
 # Node
 /node_modules
+functions/node_modules
 npm-debug.log
 yarn-error.log
 
@@ -40,3 +41,12 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Deployment files (GitHub Pages artifacts)
+chunk-*.js
+main-*.js
+styles-*.css
+index.html
+index.csr.html
+404.html
+favicon.ico
