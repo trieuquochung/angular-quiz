@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "prestart": "node load-env.js",
     "start": "ng serve",
+    "prebuild": "node load-env.js",
     "build": "ng build",
     "build:prod": "ng build --configuration production --base-href /angular-quiz/ && cp dist/angular-quiz/browser/index.csr.html dist/angular-quiz/browser/index.html",
     "deploy:webapp": "npx angular-cli-ghpages --dir=dist/angular-quiz/browser --branch=webapp --no-silent",
@@ -52,6 +54,7 @@
     "@types/jasmine": "~5.1.0",
     "@types/node": "^20.17.19",
     "angular-cli-ghpages": "^2.0.3",
+    "dotenv": "^17.2.2",
     "jasmine-core": "~5.9.0",
     "json-server": "^1.0.0-beta.3",
     "karma": "~6.4.0",

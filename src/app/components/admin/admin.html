@@ -1,1 +1,225 @@
-<p>admin works!</p>
+<div class="admin-container">
+  <h1>Quiz Administration</h1>
+  
+  <!-- Category Selection -->
+  <mat-card class="category-card">
+    <mat-card-header>
+      <mat-card-title>Select Quiz Category</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Quiz Category</mat-label>
+        <mat-select [value]="selectedCategory" (selectionChange)="selectedCategory = $event.value; onCategoryChange()">
+          @for (category of categories; track category.value) {
+            <mat-option [value]="category.value">
+              {{ category.label }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Add/Edit Question Form -->
+  <mat-card class="form-card" [class.disabled]="!selectedCategory">
+    <mat-card-header>
+      <mat-card-title>{{ editingQuestion ? 'Edit Question' : 'Add New Question' }}</mat-card-title>
+      @if (selectedCategory) {
+        <mat-card-subtitle>Category: {{ getCategoryName(selectedCategory) }}</mat-card-subtitle>
+      }
+    </mat-card-header>
+    
+    <mat-card-content>
+      <form [formGroup]="questionForm" (ngSubmit)="onSubmit()" [class.disabled]="!selectedCategory">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Question</mat-label>
+          <textarea matInput formControlName="text" rows="3" [disabled]="!selectedCategory"></textarea>
+        </mat-form-field>
+
+        <div class="options-container">
+          <h3>Answer Options (A, B, C, D Format)</h3>
+          <div formArrayName="answers">
+            @for (option of answersArray.controls; track option; let i = $index) {
+              <div class="option-row">
+                <div class="option-label">{{ getOptionLabel(i) }}.</div>
+                <mat-form-field appearance="outline" class="option-input">
+                  <mat-label>{{ getOptionLabel(i) }} Option</mat-label>
+                  <input matInput [formControlName]="i" [placeholder]="getOptionPlaceholder(i)">
+                </mat-form-field>
+              <mat-icon 
+                class="correct-indicator"
+                [class.selected]="correctAnswerIndex === i"
+                (click)="setCorrectAnswer(i)"
+                [title]="'Click to set ' + getOptionLabel(i) + ' as correct answer'">
+                {{ correctAnswerIndex === i ? 'radio_button_checked' : 'radio_button_unchecked' }}
+              </mat-icon>
+              </div>
+            }
+          </div>
+          
+          <div class="correct-answer-info">
+            <mat-icon>info</mat-icon>
+            <span>Click the radio button next to the correct answer</span>
+          </div>
+        </div>
+
+
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="!questionForm.valid || !selectedCategory">
+            {{ editingQuestion ? 'Update Question' : 'Add Question' }}
+          </button>
+          @if (editingQuestion) {
+            <button mat-button type="button" (click)="cancelEdit()">Cancel</button>
+          }
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Bulk Add Questions -->
+  <mat-card class="bulk-add-card" [class.disabled]="!selectedCategory">
+    <mat-card-header>
+      <mat-card-title>Bulk Add Sample Questions</mat-card-title>
+      @if (selectedCategory) {
+        <mat-card-subtitle>Add sample questions for {{ getCategoryName(selectedCategory) }}</mat-card-subtitle>
+      }
+    </mat-card-header>
+    
+    <mat-card-content>
+      @if (!selectedCategory) {
+        <div class="info-message">
+          <mat-icon>info</mat-icon>
+          <span>Please select a category first to add sample questions.</span>
+        </div>
+      } @else {
+        <div class="bulk-actions">
+          <button 
+            mat-raised-button 
+            color="accent" 
+            (click)="addSampleQuestions()" 
+            [disabled]="isLoadingBulk"
+            class="bulk-action-btn">
+            <mat-icon>library_add</mat-icon>
+            {{ isLoadingBulk ? 'Adding Questions...' : 'Add Sample Questions' }}
+          </button>
+          
+          <button 
+            mat-stroked-button 
+            color="warn" 
+            (click)="clearCategoryQuestions()" 
+            [disabled]="isLoadingBulk || questions.length === 0"
+            class="bulk-action-btn">
+            <mat-icon>clear_all</mat-icon>
+            Clear All Questions
+          </button>
+          
+          <div class="sample-count">
+            <mat-icon>help_outline</mat-icon>
+            <span>{{ getSampleQuestions().length }} sample questions available</span>
+          </div>
+        </div>
+
+        @if (bulkStatusMessages.length > 0) {
+          <div class="bulk-status">
+            <h4>Operation Status:</h4>
+            <div class="status-messages">
+              @for (message of bulkStatusMessages; track message.text) {
+                <div class="status-message" [class.success]="message.success" [class.error]="!message.success">
+                  <mat-icon>{{ message.success ? 'check_circle' : 'error' }}</mat-icon>
+                  <span>{{ message.text }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        @if (showPreview && getSampleQuestions().length > 0) {
+          <div class="preview-section">
+            <div class="preview-header">
+              <h4>Sample Questions Preview</h4>
+              <button mat-button (click)="togglePreview()">
+                <mat-icon>{{ showPreview ? 'expand_less' : 'expand_more' }}</mat-icon>
+                Hide Preview
+              </button>
+            </div>
+            
+            <div class="sample-questions-grid">
+              @for (question of getSampleQuestions(); track question.question; let i = $index) {
+                <div class="sample-question-card">
+                  <div class="question-number">{{ i + 1 }}</div>
+                  <div class="question-text">{{ question.question }}</div>
+                  <div class="options-preview">
+                    @for (option of question.options; track option; let j = $index) {
+                      <div class="option-preview" [class.correct]="j.toString() === question.correctAnswer">
+                        <span class="option-letter">{{ getOptionLabel(j) }}.</span>
+                        <span class="option-text">{{ option }}</span>
+                        @if (j.toString() === question.correctAnswer) {
+                          <mat-icon class="correct-icon">check</mat-icon>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        } @else {
+          <div class="preview-toggle">
+            <button mat-button (click)="togglePreview()">
+              <mat-icon>visibility</mat-icon>
+              Show Sample Questions Preview
+            </button>
+          </div>
+        }
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Questions List -->
+  <mat-card class="questions-card">
+    <mat-card-header>
+      <mat-card-title>Existing Questions</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div class="questions-list">
+        @for (question of questions; track question.id) {
+          <div class="question-item">
+            <div class="question-content">
+              <h4>{{ question.question }}</h4>
+              <div class="options-display">
+                @for (option of question.options; track option; let i = $index) {
+                  <div class="option-display" [class.correct-option]="i.toString() === question.correctAnswer">
+                    <span class="option-letter">{{ getOptionLabel(i) }}.</span>
+                    <span class="option-text">{{ option }}</span>
+                    @if (i.toString() === question.correctAnswer) {
+                      <mat-icon class="correct-badge">check_circle</mat-icon>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="question-actions">
+              <button mat-icon-button color="primary" (click)="editQuestion(question)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteQuestion(question)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        }
+        
+        @if (isLoadingQuestions) {
+          <div class="loading-message">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            <p>Loading questions...</p>
+          </div>
+        } @else if (questions.length === 0) {
+          <p class="no-questions">No questions available. Add some questions to get started!</p>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

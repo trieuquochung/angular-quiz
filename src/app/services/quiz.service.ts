@@ -1,8 +1,11 @@
-import { inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { computed, signal } from '@angular/core';
 import { Question, QuizState, QuizResult } from '../types/quiz.types';
 import { FirebaseService } from './firebase.service';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class QuizService {
   private firebaseService = inject(FirebaseService);
 
@@ -35,12 +38,17 @@ export class QuizService {
 
   // API methods
   loadQuestions() {
-    this.firebaseService.getQuestions().subscribe(questions => {
-      this.state.update(state => ({
-        ...state,
-        questions
-      }));
-    });
+    // This method is deprecated - use loadQuestionsForCategory instead
+    console.warn('loadQuestions() is deprecated. Use setQuestions() instead.');
+  }
+
+  setQuestions(questions: Question[]) {
+    this.state.update(state => ({
+      ...state,
+      questions,
+      currentQuestionIndex: 0,
+      userAnswers: new Map()
+    }));
   }
 
   // Actions

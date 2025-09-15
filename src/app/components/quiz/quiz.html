@@ -1,1 +1,116 @@
-<p>quiz works!</p>
+<div class="quiz-container">
+  <mat-card>
+    @if (isLoading()) {
+      <mat-card-content>
+        <div class="loading-state">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          <p>Loading questions from Firebase...</p>
+        </div>
+      </mat-card-content>
+    } @else if (errorMessage()) {
+      <mat-card-content>
+        <div class="error-state">
+          <mat-icon color="warn">error</mat-icon>
+          <h3>Unable to Load Quiz</h3>
+          <p>{{ errorMessage() }}</p>
+          <div class="error-actions">
+            <button mat-raised-button color="primary" (click)="retryLoad()">
+              <mat-icon>refresh</mat-icon>
+              Try Again
+            </button>
+            <button mat-stroked-button routerLink="/admin">
+              Go to Admin Panel
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    } @else if (questions().length === 0) {
+      <mat-card-content>
+        <div class="empty-state">
+          <mat-icon>quiz</mat-icon>
+          <h3>No Questions Available</h3>
+          <p>Please add some questions to the database first.</p>
+          @if (selectedCategory()) {
+            <p class="category-info">Category: <strong>{{ getCategoryName() }}</strong></p>
+          }
+          <button mat-raised-button routerLink="/admin" color="primary">
+            <mat-icon>settings</mat-icon>
+            Go to Admin Panel
+          </button>
+        </div>
+      </mat-card-content>
+    } @else if (currentQuestion()) {
+      <mat-card-header>
+        <mat-card-title>
+          Question {{ currentIndex() + 1 }} of {{ questions().length }}
+        </mat-card-title>
+        @if (selectedCategory()) {
+          <mat-card-subtitle>{{ getCategoryName() }}</mat-card-subtitle>
+        }
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-progress-bar
+          mode="determinate"
+          [value]="progress()"
+        ></mat-progress-bar>
+
+        <div class="question-content">
+          <h3 class="question-text">{{ currentQuestion().question }}</h3>
+
+          <mat-radio-group [ngModel]="selectedAnswer()" (ngModelChange)="selectedAnswer.set($event)" class="answer-options">
+            @for (option of currentQuestion().options; track option; let i = $index) {
+              <mat-radio-button [value]="option" class="answer-option">
+                <span class="option-label">{{ getOptionLabel(i) }}.</span>
+                <span class="option-text">{{ option }}</span>
+              </mat-radio-button>
+            }
+          </mat-radio-group>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <div class="quiz-navigation">
+          <button 
+            mat-button 
+            (click)="goHome()" 
+            class="home-btn">
+            <mat-icon>home</mat-icon>
+            Home
+          </button>
+          
+          <div class="nav-actions">
+            @if (currentIndex() > 0) {
+              <button 
+                mat-button 
+                (click)="previousQuestion()"
+                class="prev-btn">
+                <mat-icon>navigate_before</mat-icon>
+                Previous
+              </button>
+            }
+            
+            <button
+              mat-raised-button
+              color="primary"
+              [disabled]="!selectedAnswer()"
+              (click)="submitAnswer()"
+              class="next-btn">
+              @if (isLastQuestion()) {
+                <ng-container>
+                  <mat-icon>check_circle</mat-icon>
+                  Finish Quiz
+                </ng-container>
+              } @else {
+                <ng-container>
+                  Next Question
+                  <mat-icon>navigate_next</mat-icon>
+                </ng-container>
+              }
+            </button>
+          </div>
+        </div>
+      </mat-card-actions>
+    }
+  </mat-card>
+</div>

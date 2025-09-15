@@ -28,18 +28,58 @@ export interface QuizSession {
   completedAt: Date;
 }
 
+export type QuizCategory = 'ms-word' | 'ms-excel' | 'ms-powerpoint';
+
+export interface QuizCategoryInfo {
+  id: QuizCategory;
+  name: string;
+  icon: string;
+  description: string;
+  color: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
   private firestore = inject(Firestore);
   
-  private questionsCollection = collection(this.firestore, 'questions') as CollectionReference<FirebaseQuestion>;
   private resultsCollection = collection(this.firestore, 'quizResults') as CollectionReference<QuizSession>;
 
-  // Questions CRUD operations
-  getQuestions(): Observable<Question[]> {
-    return from(getDocs(this.questionsCollection)).pipe(
+  // Category definitions
+  readonly categories: QuizCategoryInfo[] = [
+    {
+      id: 'ms-word',
+      name: 'Microsoft Word',
+      icon: 'description',
+      description: 'Test your Microsoft Word skills',
+      color: '#2B579A'
+    },
+    {
+      id: 'ms-excel',
+      name: 'Microsoft Excel',
+      icon: 'grid_on',
+      description: 'Test your Microsoft Excel skills',
+      color: '#217346'
+    },
+    {
+      id: 'ms-powerpoint',
+      name: 'Microsoft PowerPoint',
+      icon: 'slideshow',
+      description: 'Test your Microsoft PowerPoint skills',
+      color: '#D24726'
+    }
+  ];
+
+  // Get collection for specific category
+  private getQuestionsCollection(category: QuizCategory): CollectionReference<FirebaseQuestion> {
+    return collection(this.firestore, category) as CollectionReference<FirebaseQuestion>;
+  }
+
+  // Questions CRUD operations with category support
+  getQuestions(category: QuizCategory): Observable<Question[]> {
+    const categoryCollection = this.getQuestionsCollection(category);
+    return from(getDocs(categoryCollection)).pipe(
       map(snapshot => 
         snapshot.docs.map(doc => ({
           id: doc.id,
@@ -49,19 +89,20 @@ export class FirebaseService {
     );
   }
 
-  addQuestion(question: Omit<Question, 'id'>): Observable<string> {
+  addQuestion(category: QuizCategory, question: Omit<Question, 'id'>): Observable<string> {
+    const categoryCollection = this.getQuestionsCollection(category);
     const questionData: FirebaseQuestion = {
       ...question,
       createdAt: new Date(),
       updatedAt: new Date()
     };
-    return from(addDoc(this.questionsCollection, questionData)).pipe(
+    return from(addDoc(categoryCollection, questionData)).pipe(
       map(docRef => docRef.id)
     );
   }
 
-  updateQuestion(id: string, question: Partial<Omit<Question, 'id'>>): Observable<void> {
-    const questionRef = doc(this.firestore, 'questions', id) as DocumentReference<FirebaseQuestion>;
+  updateQuestion(category: QuizCategory, id: string, question: Partial<Omit<Question, 'id'>>): Observable<void> {
+    const questionRef = doc(this.firestore, category, id) as DocumentReference<FirebaseQuestion>;
     const updateData: Partial<FirebaseQuestion> = {
       ...question,
       updatedAt: new Date()
@@ -69,8 +110,8 @@ export class FirebaseService {
     return from(updateDoc(questionRef, updateData));
   }
 
-  deleteQuestion(id: string): Observable<void> {
-    const questionRef = doc(this.firestore, 'questions', id);
+  deleteQuestion(category: QuizCategory, id: string): Observable<void> {
+    const questionRef = doc(this.firestore, category, id);
     return from(deleteDoc(questionRef));
   }
 

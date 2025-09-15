@@ -4,11 +4,6 @@ import { HomeComponent } from './components/home/home';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
-  },
-  {
-    path: 'home',
     component: HomeComponent
   },
   {
@@ -24,7 +19,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/admin/admin').then(m => m.AdminComponent)
   },
   {
+    path: 'test-firestore',
+    loadComponent: () => import('./components/firestore-test/firestore-test').then(m => m.FirestoreTestComponent)
+  },
+  {
     path: '**',
-    redirectTo: '/home'
+    redirectTo: '/'
   }
 ];

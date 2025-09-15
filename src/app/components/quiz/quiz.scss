@@ -1,0 +1,388 @@
+// Quiz Component Styles - Modern Angular 19+ Design
+.quiz-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+  }
+}
+
+mat-card {
+  max-width: 900px;
+  width: 100%;
+  margin: 2rem auto;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+
+  @media (max-width: 768px) {
+    margin: 1rem auto;
+    border-radius: 12px;
+  }
+}
+
+// Loading State
+.loading-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  
+  mat-progress-bar {
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+  }
+  
+  p {
+    margin: 1rem 0;
+    color: #666;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+}
+
+// Error State
+.error-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  
+  mat-icon {
+    font-size: 3rem;
+    height: 3rem;
+    width: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  h3 {
+    color: #f44336;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  p {
+    color: #666;
+    margin: 1rem 0;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    
+    button {
+      min-width: 140px;
+    }
+  }
+}
+
+// Empty State
+.empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  
+  mat-icon {
+    font-size: 4rem;
+    height: 4rem;
+    width: 4rem;
+    margin-bottom: 1.5rem;
+    color: #9e9e9e;
+  }
+  
+  h3 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  p {
+    color: #666;
+    margin: 1rem 0;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .category-info {
+    background: #e3f2fd;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    color: #1976d2;
+    font-weight: 500;
+  }
+  
+  button {
+    margin-top: 1.5rem;
+    min-width: 160px;
+    height: 44px;
+  }
+}
+
+// Question Header
+mat-card-header {
+  background: linear-gradient(135deg, #2196f3, #21cbf3);
+  color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 16px 16px 0 0;
+  
+  @media (max-width: 768px) {
+    padding: 1rem;
+    border-radius: 12px 12px 0 0;
+  }
+  
+  mat-card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    
+    @media (max-width: 768px) {
+      font-size: 1.2rem;
+    }
+  }
+  
+  mat-card-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+
+// Progress Bar
+mat-progress-bar {
+  height: 8px;
+  border-radius: 4px;
+  margin: 1.5rem 0;
+  
+  ::ng-deep .mat-progress-bar-buffer {
+    background-color: #e3f2fd;
+  }
+  
+  ::ng-deep .mat-progress-bar-fill::after {
+    background: linear-gradient(135deg, #4caf50, #8bc34a);
+  }
+}
+
+// Question Content
+.question-content {
+  padding: 2rem;
+  
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+  
+  .question-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border-left: 4px solid #2196f3;
+    
+    @media (max-width: 768px) {
+      font-size: 1.1rem;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+}
+
+// Answer Options
+.answer-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
+  .answer-option {
+    padding: 1rem 1.5rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    background: white;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    
+    &:hover {
+      border-color: #2196f3;
+      background: #f3f8ff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
+    }
+    
+    &.mat-radio-checked {
+      border-color: #2196f3;
+      background: #e3f2fd;
+      box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
+    }
+    
+    ::ng-deep .mat-radio-container {
+      margin-right: 1rem;
+      
+      .mat-radio-outer-circle {
+        border-color: #2196f3;
+      }
+      
+      .mat-radio-inner-circle {
+        background-color: #2196f3;
+      }
+    }
+    
+    .option-label {
+      font-weight: bold;
+      color: #2196f3;
+      margin-right: 0.75rem;
+      font-size: 1.1rem;
+    }
+    
+    .option-text {
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.5;
+    }
+    
+    @media (max-width: 768px) {
+      padding: 0.75rem 1rem;
+      
+      .option-label {
+        font-size: 1rem;
+        margin-right: 0.5rem;
+      }
+      
+      .option-text {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+// Card Actions / Navigation
+mat-card-actions {
+  padding: 1.5rem 2rem 2rem;
+  
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+  
+  .quiz-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .home-btn {
+      color: #666;
+      
+      mat-icon {
+        margin-right: 0.5rem;
+      }
+    }
+    
+    .nav-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      
+      @media (max-width: 768px) {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .prev-btn {
+        color: #666;
+        
+        mat-icon {
+          margin-right: 0.5rem;
+        }
+      }
+      
+      .next-btn {
+        min-width: 160px;
+        height: 44px;
+        font-weight: 600;
+        
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+        
+        mat-icon {
+          margin-left: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+          min-width: 140px;
+          height: 40px;
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+mat-card {
+  animation: slideIn 0.5s ease-out;
+}
+
+.answer-option:hover {
+  animation: pulse 0.3s ease-in-out;
+}
+
+// Material Design Overrides
+::ng-deep .mat-card {
+  overflow: hidden;
+}
+
+::ng-deep .mat-radio-button {
+  width: 100%;
+  
+  .mat-radio-label {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .mat-radio-label-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+}
+
+::ng-deep .mat-progress-bar {
+  .mat-progress-bar-background {
+    fill: #e3f2fd;
+  }
+}

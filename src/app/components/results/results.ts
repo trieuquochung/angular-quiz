@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -10,7 +10,6 @@ import { QuizResult } from '../../types/quiz.types';
 
 @Component({
   selector: 'app-results',
-  standalone: true,
   imports: [
     CommonModule,
     RouterLink,
@@ -19,6 +18,7 @@ import { QuizResult } from '../../types/quiz.types';
     MatDividerModule,
     MatIconModule
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="results-container">
       <mat-card>
@@ -57,7 +57,7 @@ import { QuizResult } from '../../types/quiz.types';
           <button mat-raised-button color="primary" routerLink="/quiz">
             Try Again
           </button>
-          <button mat-button routerLink="/home">
+          <button mat-button routerLink="/">
             Back to Home
           </button>
         </mat-card-actions>

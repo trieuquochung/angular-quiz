@@ -1,18 +1,15 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Questions collection - Public read only
-    // Admins manage questions via Firebase Console
+    // Questions collection - Allow read/write for testing
+    // TODO: Restrict write access in production
     match /questions/{questionId} {
-      allow read: if true;
-      allow write: if false; // Only admins can add/edit via Firebase Console
+      allow read, write: if true; // Open access for testing
     }
     
-    // Quiz results - Anyone can submit, no one can read others' results
+    // Quiz results - Anyone can submit and read for testing
     match /quizResults/{resultId} {
-      allow create: if true; // Anyone can submit quiz results
-      allow read: if false;  // Privacy: no reading others' results
-      allow update, delete: if false; // No modifications after submission
+      allow read, write: if true; // Open access for testing
     }
     
     // Statistics collection (optional - for aggregated data)
@@ -21,10 +18,9 @@ service cloud.firestore {
       allow write: if false; // Updated manually by admin
     }
     
-    // Rate limiting: Prevent spam submissions (basic protection)
-    match /quizResults/{resultId} {
-      allow create: if request.time > resource.data.lastSubmission + duration.value(5, 's')
-        || resource == null;
+    // Catch-all rule for testing
+    match /{document=**} {
+      allow read, write: if true;
     }
   }
 }

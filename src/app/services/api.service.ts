@@ -26,27 +26,41 @@ interface StatsResponse {
 export class ApiService {
   private http = inject(HttpClient);
   
-  // Cloud Functions API URL from environment configuration
-  private readonly API_BASE_URL = environment.apiUrl;
+  // Note: This service is for Cloud Functions API (not used in zero-cost architecture)
+  // Using Firestore directly through FirebaseService instead
+  // These methods are stubs to prevent build errors
 
   // Questions API
   getQuestions(): Observable<Question[]> {
-    return this.http.get<QuestionResponse>(`${this.API_BASE_URL}/quiz`)
-      .pipe(
-        map((response: QuestionResponse) => response.questions)
-      );
+    // Stub method - use FirebaseService.getQuestions() instead
+    return new Observable(observer => {
+      observer.next([]);
+      observer.complete();
+    });
   }
 
   addQuestion(question: Omit<Question, 'id'>): Observable<{ id: string; success: boolean }> {
-    return this.http.post<{ id: string; success: boolean }>(`${this.API_BASE_URL}/questions`, question);
+    // Stub method - use FirebaseService.addQuestion() instead
+    return new Observable(observer => {
+      observer.next({ id: '', success: false });
+      observer.complete();
+    });
   }
 
   updateQuestion(id: string | number, question: Partial<Question>): Observable<{ success: boolean }> {
-    return this.http.put<{ success: boolean }>(`${this.API_BASE_URL}/questions/${id}`, question);
+    // Stub method - use FirebaseService.updateQuestion() instead
+    return new Observable(observer => {
+      observer.next({ success: false });
+      observer.complete();
+    });
   }
 
   deleteQuestion(id: string | number): Observable<{ success: boolean }> {
-    return this.http.delete<{ success: boolean }>(`${this.API_BASE_URL}/questions/${id}`);
+    // Stub method - use FirebaseService.deleteQuestion() instead
+    return new Observable(observer => {
+      observer.next({ success: false });
+      observer.complete();
+    });
   }
 
   // Quiz Results API
@@ -56,16 +70,32 @@ export class ApiService {
     totalQuestions: number;
     completedAt: Date;
   }): Observable<{ id: string; success: boolean }> {
-    return this.http.post<{ id: string; success: boolean }>(`${this.API_BASE_URL}/submit`, result);
+    // Stub method - use FirebaseService.saveQuizResult() instead
+    return new Observable(observer => {
+      observer.next({ id: '', success: false });
+      observer.complete();
+    });
   }
 
   // Statistics API
   getStats(): Observable<StatsResponse> {
-    return this.http.get<StatsResponse>(`${this.API_BASE_URL}/stats`);
+    // Stub method - implement using FirebaseService queries
+    return new Observable(observer => {
+      observer.next({ 
+        totalQuestions: 0, 
+        totalResults: 0, 
+        averageScore: 0
+      });
+      observer.complete();
+    });
   }
 
   // Health check
   healthCheck(): Observable<{ status: string; timestamp: string }> {
-    return this.http.get<{ status: string; timestamp: string }>(`${this.API_BASE_URL}/health`);
+    // Stub method - not needed for client-side only architecture
+    return new Observable(observer => {
+      observer.next({ status: 'ok', timestamp: new Date().toISOString() });
+      observer.complete();
+    });
   }
 }
