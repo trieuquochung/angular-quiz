@@ -33,7 +33,12 @@
             "outputMode": "server",
             "ssr": {
               "entry": "src/server.ts"
-            }
+            },
+            "allowedCommonJsDependencies": [
+              "@grpc/proto-loader",
+              "@firebase/firestore",
+              "protobufjs"
+            ]
           },
           "configurations": {
             "production": {

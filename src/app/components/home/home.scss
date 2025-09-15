@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-// Animated Background with Starfield
+// Optimized Starfield Background
 .quiz-homepage::before {
   content: '';
   position: fixed;
@@ -19,23 +19,16 @@
   height: 120%;
   z-index: -3;
   background: 
-    radial-gradient(2px 2px at 20px 30px, #eee, transparent),
-    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,.8), transparent),
-    radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,.6), transparent),
-    radial-gradient(2px 2px at 160px 30px, #ddd, transparent),
-    radial-gradient(1px 1px at 200px 90px, #fff, transparent),
-    radial-gradient(2px 2px at 240px 50px, rgba(255,255,255,.7), transparent),
-    radial-gradient(1px 1px at 280px 10px, #eee, transparent),
+    radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+    radial-gradient(1px 1px at 90px 40px, #eee, transparent),
+    radial-gradient(2px 2px at 160px 30px, #fff, transparent),
+    radial-gradient(1px 1px at 280px 10px, #ddd, transparent),
     radial-gradient(2px 2px at 320px 80px, #fff, transparent),
-    radial-gradient(1px 1px at 360px 40px, rgba(255,255,255,.9), transparent),
-    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.4) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
     linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 70%, #533483 100%);
-  background-repeat: repeat;
-  background-size: 400px 400px, 400px 400px, 400px 400px, 400px 400px, 400px 400px, 400px 400px, 400px 400px, 400px 400px, 400px 400px, 400px 400px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
-  animation: backgroundMove 20s ease-in-out infinite, starfieldMove 100s linear infinite;
+  background-size: 400px 400px;
+  animation: starMove 20s ease-in-out infinite;
 }
 
 .quiz-homepage::after {
@@ -46,937 +39,165 @@
   width: 100%;
   height: 100%;
   z-index: -2;
-  background: 
-    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 25%),
-    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.05) 0%, transparent 25%),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 2px,
-      rgba(255, 255, 255, 0.02) 2px,
-      rgba(255, 255, 255, 0.02) 4px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(255, 255, 255, 0.02) 2px,
-      rgba(255, 255, 255, 0.02) 4px
-    );
-  animation: gridMove 30s linear infinite, nebulaMove 40s ease-in-out infinite;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 25%);
+  animation: cosmic 15s ease-in-out infinite alternate;
 }
 
-// Stars Container
-.stars-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
+// Optimized animations
+@keyframes starMove {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(10px, -10px) rotate(0.5deg); }
+  50% { transform: translate(-5px, 10px) rotate(-0.3deg); }
+  75% { transform: translate(8px, 5px) rotate(0.2deg); }
 }
 
-// Individual Stars
-.star {
+@keyframes cosmic {
+  0% { opacity: 0.3; transform: scale(1); }
+  100% { opacity: 0.6; transform: scale(1.1); }
+}
+
+// Shooting stars (simplified)
+.shooting-star {
   position: absolute;
-  background: #ffffff;
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-  animation: starTwinkle 3s ease-in-out infinite;
-
-  &.star-1 {
-    width: 8px;
-    height: 8px;
-    top: 15%;
-    left: 10%;
-    animation-delay: 0s;
-    animation-duration: 2.5s;
-  }
-
-  &.star-2 {
-    width: 6px;
-    height: 6px;
-    top: 25%;
-    left: 85%;
-    animation-delay: 0.5s;
-    animation-duration: 3.2s;
-  }
-
-  &.star-3 {
-    width: 10px;
-    height: 10px;
-    top: 10%;
-    left: 45%;
-    animation-delay: 1s;
-    animation-duration: 2.8s;
-  }
-
-  &.star-4 {
-    width: 5px;
-    height: 5px;
-    top: 35%;
-    left: 20%;
-    animation-delay: 1.5s;
-    animation-duration: 3.5s;
-  }
-
-  &.star-5 {
-    width: 7px;
-    height: 7px;
-    top: 40%;
-    left: 75%;
-    animation-delay: 2s;
-    animation-duration: 2.2s;
-  }
-
-  &.star-6 {
-    width: 9px;
-    height: 9px;
-    top: 55%;
-    left: 15%;
-    animation-delay: 2.5s;
-    animation-duration: 3.8s;
-  }
-
-  &.star-7 {
-    width: 4px;
-    height: 4px;
-    top: 65%;
-    left: 60%;
-    animation-delay: 3s;
-    animation-duration: 2.7s;
-  }
-
-  &.star-8 {
-    width: 8px;
-    height: 8px;
-    top: 70%;
-    left: 90%;
-    animation-delay: 0.3s;
-    animation-duration: 3.1s;
-  }
-
-  &.star-9 {
-    width: 6px;
-    height: 6px;
-    top: 80%;
-    left: 30%;
-    animation-delay: 1.2s;
-    animation-duration: 2.9s;
-  }
-
-  &.star-10 {
-    width: 7px;
-    height: 7px;
-    top: 85%;
-    left: 70%;
-    animation-delay: 1.8s;
-    animation-duration: 3.3s;
-  }
-
-  &.star-11 {
-    width: 5px;
-    height: 5px;
-    top: 5%;
-    left: 25%;
-    animation-delay: 0.8s;
-    animation-duration: 2.4s;
-  }
-
-  &.star-12 {
-    width: 9px;
-    height: 9px;
-    top: 20%;
-    left: 65%;
-    animation-delay: 2.2s;
-    animation-duration: 3.6s;
-  }
-
-  &.star-13 {
-    width: 4px;
-    height: 4px;
-    top: 30%;
-    left: 50%;
-    animation-delay: 1.7s;
-    animation-duration: 2.6s;
-  }
-
-  &.star-14 {
-    width: 8px;
-    height: 8px;
-    top: 45%;
-    left: 5%;
-    animation-delay: 0.2s;
-    animation-duration: 3.4s;
-  }
-
-  &.star-15 {
-    width: 6px;
-    height: 6px;
-    top: 50%;
-    left: 95%;
-    animation-delay: 2.8s;
-    animation-duration: 2.3s;
-  }
-
-  &.star-16 {
-    width: 7px;
-    height: 7px;
-    top: 60%;
-    left: 35%;
-    animation-delay: 1.3s;
-    animation-duration: 3.7s;
-  }
-
-  &.star-17 {
-    width: 5px;
-    height: 5px;
-    top: 75%;
-    left: 55%;
-    animation-delay: 0.7s;
-    animation-duration: 2.1s;
-  }
-
-  &.star-18 {
-    width: 10px;
-    height: 10px;
-    top: 90%;
-    left: 80%;
-    animation-delay: 2.3s;
-    animation-duration: 3.9s;
-  }
-
-  &.star-19 {
-    width: 4px;
-    height: 4px;
-    top: 95%;
-    left: 10%;
-    animation-delay: 1.9s;
-    animation-duration: 2.5s;
-  }
-
-  &.star-20 {
-    width: 8px;
-    height: 8px;
-    top: 8%;
-    left: 80%;
-    animation-delay: 0.1s;
-    animation-duration: 3.0s;
-  }
-}
-
-// Pure CSS Animated Particles
-.particles-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.particle {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.7);
+  width: 2px;
+  height: 2px;
+  background: linear-gradient(45deg, #fff, transparent);
   border-radius: 50%;
-  animation: float 15s infinite linear;
-
-  &.particle-1 {
-    width: 6px;
-    height: 6px;
-    left: 10%;
-    top: 20%;
-    animation-delay: 0s;
-    animation-duration: 12s;
-  }
-
-  &.particle-2 {
-    width: 4px;
-    height: 4px;
-    left: 20%;
-    top: 60%;
-    animation-delay: 2s;
-    animation-duration: 18s;
-  }
-
-  &.particle-3 {
-    width: 8px;
-    height: 8px;
-    left: 40%;
-    top: 80%;
-    animation-delay: 4s;
-    animation-duration: 15s;
-  }
-
-  &.particle-4 {
-    width: 3px;
-    height: 3px;
-    left: 60%;
-    top: 10%;
-    animation-delay: 6s;
-    animation-duration: 20s;
-  }
-
-  &.particle-5 {
-    width: 5px;
-    height: 5px;
-    left: 80%;
-    top: 70%;
-    animation-delay: 8s;
-    animation-duration: 14s;
-  }
-
-  &.particle-6 {
-    width: 7px;
-    height: 7px;
-    left: 90%;
-    top: 30%;
-    animation-delay: 10s;
-    animation-duration: 16s;
-  }
-
-  &.particle-7 {
-    width: 4px;
-    height: 4px;
-    left: 70%;
-    top: 50%;
-    animation-delay: 12s;
-    animation-duration: 22s;
-    background: rgba(255, 255, 255, 0.8);
-  }
-
-  &.particle-8 {
-    width: 9px;
-    height: 9px;
-    left: 25%;
-    top: 90%;
-    animation-delay: 14s;
-    animation-duration: 19s;
-    background: rgba(255, 255, 255, 0.6);
-  }
-}
-
-// Header Section
-.page-header {
-  text-align: center;
-  margin-bottom: 4rem;
-  color: white;
-  position: relative;
-  z-index: 2;
-}
-
-.main-title {
-  font-size: clamp(2rem, 6vw, 4rem);
-  font-weight: 700;
-  margin: 0 0 1rem 0;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  line-height: 1.2;
-  background: linear-gradient(45deg, #ffffff, #f0f8ff, #e6f3ff);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: titleGlow 3s ease-in-out infinite alternate;
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #ffffff, transparent);
-    animation: underlineExpand 2s ease-out 0.5s forwards;
-  }
-}
-
-.main-subtitle {
-  font-size: clamp(1rem, 2.5vw, 1.5rem);
-  margin: 0;
-  opacity: 0.9;
-  font-weight: 300;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  letter-spacing: 0.5px;
-}
-
-// Office Categories
-.office-categories {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  max-width: 1200px;
-  width: 100%;
-  position: relative;
-  z-index: 2;
-}
-
-@media (max-width: 768px) {
-  .office-categories {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-}
-
-// Category Cards
-.category-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(15px);
-  border-radius: 20px;
-  padding: 2rem;
-  text-align: center;
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.1),
-    0 2px 16px rgba(255, 255, 255, 0.1) inset;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-      transparent, 
-      rgba(255, 255, 255, 0.2), 
-      transparent);
-    transition: left 0.6s ease;
-  }
-
-  &:hover {
-    transform: translateY(-15px) scale(1.02);
-    box-shadow: 
-      0 25px 50px rgba(0, 0, 0, 0.2),
-      0 10px 30px rgba(102, 126, 234, 0.3);
-    border-color: rgba(102, 126, 234, 0.3);
-
-    &::before {
-      left: 100%;
-    }
-
-    .category-icon {
-      transform: scale(1.1) rotate(10deg);
-      
-      mat-icon {
-        animation: iconPulse 0.6s ease;
-      }
-    }
-
-    .animate-button {
-      transform: scale(1.05);
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-    }
-  }
-
-  h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 1rem 0 0.5rem 0;
-    color: #333;
-    position: relative;
-  }
-
-  p {
-    color: #666;
-    margin: 0 0 2rem 0;
-    line-height: 1.5;
-  }
-
-  button {
-    font-weight: 600;
-    padding: 12px 24px;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.6s ease, height 0.6s ease;
-    }
-
-    &:hover::before {
-      width: 300px;
-      height: 300px;
-    }
-  }
-}
-
-// Category Icons
-.category-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1rem;
-  color: white;
-  font-size: 2.5rem;
-  position: relative;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    border-radius: 50%;
-    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  &:hover::before {
-    opacity: 1;
-    animation: rotate 2s linear infinite;
-  }
-
-  mat-icon {
-    font-size: 2.5rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    transition: all 0.3s ease;
-  }
-
-  &.word-icon {
-    background: linear-gradient(135deg, #2B579A, #1B4A87);
-    box-shadow: 0 4px 15px rgba(43, 87, 154, 0.4);
-  }
-
-  &.excel-icon {
-    background: linear-gradient(135deg, #217346, #1A5F37);
-    box-shadow: 0 4px 15px rgba(33, 115, 70, 0.4);
-  }
-
-  &.powerpoint-icon {
-    background: linear-gradient(135deg, #D24726, #B73E20);
-    box-shadow: 0 4px 15px rgba(210, 71, 38, 0.4);
-  }
-}
-
-// Animation Classes
-.animate-fade-up {
-  animation: fadeUp 1s ease-out forwards;
-}
-
-.animate-slide-up {
-  animation: slideUp 0.8s ease-out forwards;
-}
-
-.animate-card {
-  animation: cardEntrance 0.8s ease-out forwards;
   opacity: 0;
-  transform: translateY(50px) scale(0.9);
+  animation: shoot 3s linear infinite;
 }
 
-.animate-text {
-  animation: textReveal 0.6s ease-out forwards;
-  opacity: 0;
-  transform: translateY(20px);
+.shooting-star:nth-child(1) {
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
 }
 
-.animate-button {
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.shooting-star:nth-child(2) {
+  top: 60%;
+  right: 20%;
+  animation-delay: 1.5s;
 }
 
-.animate-icon {
-  animation: iconFloat 3s ease-in-out infinite;
-}
-
-// Delay Classes
-.delay-1 { animation-delay: 0.2s; }
-.delay-2 { animation-delay: 0.4s; }
-.delay-3 { animation-delay: 0.6s; }
-.delay-4 { animation-delay: 0.8s; }
-.delay-small { animation-delay: 0.1s; }
-
-// Keyframe Animations
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes cardEntrance {
-  from {
-    opacity: 0;
-    transform: translateY(50px) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes textReveal {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes titleGlow {
-  from {
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  }
-  to {
-    text-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
-  }
-}
-
-@keyframes underlineExpand {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100px;
-  }
-}
-
-@keyframes iconFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes iconPulse {
+@keyframes shoot {
   0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes float {
-  0% {
-    transform: translateY(20px) translateX(0px) scale(0);
     opacity: 0;
+    transform: translate(0, 0) scale(0);
   }
   10% {
     opacity: 1;
-    transform: translateY(15px) translateX(5px) scale(1);
-  }
-  25% {
-    transform: translateY(-5px) translateX(10px) scale(1.1);
-  }
-  50% {
-    transform: translateY(-15px) translateX(15px) scale(1);
-  }
-  75% {
-    transform: translateY(-10px) translateX(20px) scale(0.9);
-  }
-  90% {
-    opacity: 1;
-    transform: translateY(-25px) translateX(25px) scale(1);
+    transform: translate(0, 0) scale(1);
   }
   100% {
-    transform: translateY(-30px) translateX(30px) scale(0);
     opacity: 0;
+    transform: translate(200px, 200px) scale(0);
   }
 }
 
-@keyframes starTwinkle {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(0.8) rotate(0deg);
-  }
-  25% {
-    opacity: 1;
-    transform: scale(1.2) rotate(90deg);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1) rotate(180deg);
-  }
-  75% {
-    opacity: 1;
-    transform: scale(1.1) rotate(270deg);
-  }
+// Main content styles
+.quiz-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 800px;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes starfieldMove {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  100% {
-    transform: translateX(-400px) translateY(-400px);
-  }
+.quiz-title {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, #fff, #e3f2fd, #fff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
 }
 
-@keyframes nebulaMove {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1) rotate(0deg);
-  }
-  33% {
-    opacity: 0.6;
-    transform: scale(1.1) rotate(120deg);
-  }
-  66% {
-    opacity: 0.4;
-    transform: scale(0.9) rotate(240deg);
-  }
+.quiz-subtitle {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2rem;
+  font-weight: 300;
 }
 
-@keyframes shootingStar {
-  0% {
-    transform: translateX(0) translateY(0) rotate(-45deg);
-    opacity: 0;
-  }
-  5% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(120vw) translateY(60vh) rotate(-45deg);
-    opacity: 0;
-  }
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
-// Click Animation
-.category-card.clicked {
-  transform: scale(0.95) translateY(-5px);
-  transition: all 0.2s ease;
+.category-card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
 }
 
-// Intersection Observer Animation
-.animate-in-view {
-  animation: slideInFromBottom 0.6s ease-out forwards;
-}
-
-@keyframes slideInFromBottom {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Loading State
-.quiz-homepage:not(.loaded) {
-  .animate-fade-up,
-  .animate-slide-up,
-  .animate-card {
-    opacity: 0;
-  }
-}
-
-// Fallback for no video
-.quiz-homepage:not(:has(.video-background video)) {
-  background: linear-gradient(135deg, 
-    #667eea 0%, 
-    #764ba2 50%, 
-    #ff5e4d 100%);
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>') center/50px 50px;
-    animation: backgroundMove 20s linear infinite;
-  }
-}
-
-@keyframes backgroundMove {
-  0%, 100% {
-    transform: translateX(-10%) translateY(-10%) rotate(0deg);
-  }
-  25% {
-    transform: translateX(0%) translateY(-5%) rotate(1deg);
-  }
-  50% {
-    transform: translateX(5%) translateY(0%) rotate(0deg);
-  }
-  75% {
-    transform: translateX(0%) translateY(5%) rotate(-1deg);
-  }
-}
-
-@keyframes gridMove {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  100% {
-    transform: translateX(50px) translateY(50px);
-  }
-}
-
-// Enhanced Hover Effects
 .category-card:hover {
-  .animate-text {
-    color: #667eea;
-    transform: translateY(-2px);
-  }
-  
-  h3 {
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #667eea, transparent);
-      animation: textUnderline 0.3s ease-out forwards;
-    }
-  }
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes textUnderline {
-  from {
-    width: 0;
-    opacity: 0;
-  }
-  to {
-    width: 50px;
-    opacity: 1;
-  }
+.category-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #fff;
 }
 
-// Shooting Stars
-.shooting-stars {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
+.category-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.5rem;
 }
 
-.shooting-star {
-  position: absolute;
-  height: 2px;
-  background: linear-gradient(90deg, #fff, transparent);
-  animation: shootingStar 3s ease-in-out infinite;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: 0;
-    width: 6px;
-    height: 6px;
-    background: radial-gradient(circle, #fff 0%, transparent 70%);
-    border-radius: 50%;
-    transform: translateY(-50%);
-  }
-
-  &.shooting-star-1 {
-    top: 20%;
-    left: -100px;
-    width: 100px;
-    animation-delay: 0s;
-    animation-duration: 4s;
-  }
-
-  &.shooting-star-2 {
-    top: 60%;
-    left: -80px;
-    width: 80px;
-    animation-delay: 8s;
-    animation-duration: 3.5s;
-  }
-
-  &.shooting-star-3 {
-    top: 35%;
-    left: -120px;
-    width: 120px;
-    animation-delay: 15s;
-    animation-duration: 4.2s;
-  }
+.category-description {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.4;
 }
 
-// Responsive Animations
+// Responsive design
 @media (max-width: 768px) {
-  .animate-card {
-    animation-duration: 0.6s;
-  }
-  
-  .category-card:hover {
-    transform: translateY(-10px) scale(1.01);
-  }
-  
-  .main-title {
-    font-size: clamp(1.5rem, 8vw, 3rem);
-  }
-  
-  .particles-container {
-    display: none; // Hide particles on mobile for performance
+  .quiz-homepage {
+    padding: 1rem;
   }
 
-  .stars-container .star {
-    animation-duration: 2s; // Faster animations on mobile
+  .quiz-content {
+    padding: 2rem 1.5rem;
   }
 
-  .shooting-stars {
-    display: none; // Hide shooting stars on mobile
+  .quiz-title {
+    font-size: 2rem;
+  }
+
+  .categories-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .quiz-title {
+    font-size: 1.5rem;
+  }
+
+  .quiz-subtitle {
+    font-size: 1rem;
+  }
+
+  .category-card {
+    padding: 1rem;
   }
 }
